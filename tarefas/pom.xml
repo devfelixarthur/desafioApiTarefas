@@ -11,7 +11,7 @@
 	<groupId>com.api.v1</groupId>
 	<artifactId>tarefas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Gerenciamento de Taregas</name>
+	<name>Gerenciamento de Tarefas</name>
 	<description>Desafio Técnico para construção de API de Gerenciamento de Tarefas</description>
 	<properties>
 		<java.version>17</java.version>
