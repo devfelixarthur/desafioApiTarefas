@@ -24,13 +24,17 @@ public class Lista {
     @Column(unique = true, nullable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "list_name", unique = true, nullable = false, length = 255)
     @NotBlank
+    @Column(name = "list_name", unique = true, nullable = false, length = 255)
     private String nomeLista;
 
-    @Column(name = "created_by", nullable = false, length = 255)
     @NotBlank
+    @Column(name = "created_by", nullable = false, length = 255)
     private String nomeUsuario;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status;
 
     @Column(name = "date_created", nullable = false)
     private LocalDateTime dataCriacao;
@@ -38,14 +42,6 @@ public class Lista {
     @Column(name = "date_update", nullable = false)
     private LocalDateTime dataUpdate;
 
-    private Status status;
-
-    @ManyToMany
-    @JoinTable(
-            name = "lista_tarefa",
-            joinColumns = @JoinColumn(name = "lista_id"),
-            inverseJoinColumns = @JoinColumn(name = "tarefa_id")
-    )
+    @OneToMany(mappedBy = "lista", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Tarefa> tarefas;
-
 }

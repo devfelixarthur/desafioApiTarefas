@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -25,7 +24,7 @@ public class Tarefa {
     private UUID id;
 
     @NotBlank
-    @Column(name = "description", nullable = false, length = 255)
+    @Column(name = "description", nullable = false, length = 500)
     private String descricao;
 
     @Enumerated(EnumType.STRING)
@@ -41,6 +40,7 @@ public class Tarefa {
     @Column(name = "date_update", nullable = false)
     private LocalDateTime dataUpdate;
 
-    @ManyToMany(mappedBy = "lista_tarefa")
-    private Set<Lista> listas;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_list", nullable = false)
+    private Lista lista;
 }
