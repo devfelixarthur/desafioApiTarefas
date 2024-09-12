@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,4 +19,7 @@ public interface ListRepository extends JpaRepository<Lista, UUID> {
 
     @Query("SELECT COUNT(l.id) FROM Lista l")
     int countTotal();
+
+    @Query("SELECT l FROM Lista l JOIN FETCH l.tarefas t ORDER BY t.favoritos DESC")
+    List<Lista> findAllListas();
 }

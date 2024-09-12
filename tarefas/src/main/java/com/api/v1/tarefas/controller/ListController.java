@@ -77,10 +77,10 @@ public class ListController {
             @ApiResponse(responseCode = "400", description = "Dados Inválidos", content = @Content(schema = @Schema(implementation = ResponsePadraoDTO.class)))
     })
     @PutMapping("/atualizarLista")
-    public ResponseEntity<ResponsePadraoDTO> atualizarLista(@RequestBody @Valid EditarListDTO form) {
-        ResponsePadraoDTO responsePadraoDTO = listService.atualizarList(form);
-        return ResponseEntity.ok().body(responsePadraoDTO);
-    }
+        public ResponseEntity<ResponsePadraoDTO> atualizarLista(@RequestBody @Valid EditarListDTO form) {
+            ResponsePadraoDTO responsePadraoDTO = listService.atualizarList(form);
+            return ResponseEntity.ok().body(responsePadraoDTO);
+        }
 
     @Operation(summary = "Excluir Lista", description = "Endpoint para excluir uma lista existente.")
     @ApiResponses(value = {

@@ -4,16 +4,14 @@ import com.api.v1.tarefas.dto.CadastroListDTO;
 import com.api.v1.tarefas.dto.EditarListDTO;
 import com.api.v1.tarefas.dto.ListaDTO;
 import com.api.v1.tarefas.entities.Lista;
+import com.api.v1.tarefas.entities.Tarefa;
 import com.api.v1.tarefas.enums.Status;
 import com.api.v1.tarefas.exceptions.ApiException;
 import com.api.v1.tarefas.repositories.ListRepository;
 import com.api.v1.tarefas.utils.ResponsePadraoDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ListService {
@@ -61,11 +58,13 @@ public class ListService {
 
     public ListaDTO listarTodas() {
         ListaDTO result = new ListaDTO();
-        List<Lista> listasCadastradas = listRepository.findAll();
+        List<Lista> listasCadastradas = listRepository.findAllListas();
         int total = listRepository.countTotal();
 
         result.setListaTarefas(listasCadastradas);
         result.setTotalListas(total);
+
+
         if (listasCadastradas.isEmpty()){
             throw new ApiException("Listas não encontradas.", HttpStatus.NOT_FOUND);
         }
@@ -110,14 +109,19 @@ public class ListService {
         List<Lista> resultList = typedQuery.getResultList();
         int total = resultList.size();
 
-        if (resultList.isEmpty()){
-            throw new ApiException("Dados não encontrados para os parâmteros informados.", HttpStatus.NOT_FOUND);
+        if (resultList.isEmpty()) {
+            throw new ApiException("Dados não encontrados para os parâmetros informados.", HttpStatus.NOT_FOUND);
         }
 
-        ListaDTO result = new ListaDTO(total, resultList);
+        resultList.forEach(listaObj ->
+                listaObj.setTarefas(listaObj.getTarefas().stream()
+                        .sorted(Comparator.comparing(Tarefa::isFavoritos).reversed())
+                        .collect(Collectors.toCollection(LinkedHashSet::new)))
+        );
 
-        return result;
+        return new ListaDTO(total, resultList);
     }
+
     public ResponsePadraoDTO atualizarList(@Valid EditarListDTO form) {
         Lista listaExistente = listRepository.findById(form.getUuid())
                 .orElseThrow(() -> new ApiException("Lista não encontrada para o UUID informado.", HttpStatus.NOT_FOUND));
@@ -139,7 +143,7 @@ public class ListService {
         }
 
         if (form.getStatus() != null) {
-            String statusUpper = form.getStatus().toUpperCase(); // Converte para maiúsculo
+            String statusUpper = form.getStatus().toUpperCase();
             if (!statusUpper.equals(Status.ATIVO.name()) && !statusUpper.equals(Status.INATIVO.name())) {
                 throw new ApiException("Status inválido. O status deve ser ATIVO ou INATIVO.", HttpStatus.BAD_REQUEST);
             }
