@@ -49,6 +49,12 @@ public class TaskService {
         Lista lista = listRepository.findById(form.idLista())
                 .orElseThrow(() -> new ApiException("Lista não encontrada para o ID informado.", HttpStatus.NOT_FOUND));
 
+        boolean tarefaExistente = taskRepository.existsByNomeTaskAndLista(form.nomeTask(), lista);
+
+        if (tarefaExistente) {
+            throw new ApiException("Já existe uma tarefa com o nome '" + form.nomeTask() + "' na lista informada.", HttpStatus.BAD_REQUEST);
+        }
+
         boolean isFavorito = form.favorito() != null && form.favorito().equals(1);
 
         task.setLista(lista);
