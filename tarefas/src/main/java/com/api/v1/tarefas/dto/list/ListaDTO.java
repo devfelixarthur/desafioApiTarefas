@@ -1,6 +1,5 @@
-package com.api.v1.tarefas.dto;
+package com.api.v1.tarefas.dto.list;
 
-import com.api.v1.tarefas.entities.Lista;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,5 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ListaDTO {
     private int totalListas;
-    private List<Lista> listaTarefas;
+    private List<ListaComTarefasDTO> listaTarefas;
 }
+

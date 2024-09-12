@@ -1,6 +1,6 @@
 package com.api.v1.tarefas.controller;
 
-import com.api.v1.tarefas.dto.CadastroListDTO;
+import com.api.v1.tarefas.dto.list.CadastroListDTO;
 import com.api.v1.tarefas.exceptions.ApiException;
 import com.api.v1.tarefas.services.ListService;
 import com.api.v1.tarefas.utils.ResponsePadraoDTO;

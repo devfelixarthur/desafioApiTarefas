@@ -1,8 +1,10 @@
 package com.api.v1.tarefas.services;
 
-import com.api.v1.tarefas.dto.CadastroListDTO;
-import com.api.v1.tarefas.dto.EditarListDTO;
-import com.api.v1.tarefas.dto.ListaDTO;
+import com.api.v1.tarefas.dto.list.CadastroListDTO;
+import com.api.v1.tarefas.dto.list.EditarListDTO;
+import com.api.v1.tarefas.dto.list.ListaComTarefasDTO;
+import com.api.v1.tarefas.dto.list.ListaDTO;
+import com.api.v1.tarefas.dto.task.TarefaDTO;
 import com.api.v1.tarefas.entities.Lista;
 import com.api.v1.tarefas.entities.Tarefa;
 import com.api.v1.tarefas.enums.Status;
@@ -61,16 +63,40 @@ public class ListService {
         List<Lista> listasCadastradas = listRepository.findAllListas();
         int total = listRepository.countTotal();
 
-        result.setListaTarefas(listasCadastradas);
+        List<ListaComTarefasDTO> listasDTO = listasCadastradas.stream().map(lista -> {
+            List<TarefaDTO> tarefasDTO = lista.getTarefas().stream()
+                    .sorted(Comparator.comparing(Tarefa::isFavoritos).reversed())
+                    .map(tarefa -> new TarefaDTO(
+                            tarefa.getId(),
+                            tarefa.getNomeTask(),
+                            tarefa.getDescricao(),
+                            tarefa.getStatus().name(),
+                            tarefa.isFavoritos(),
+                            tarefa.getDataCriacao(),
+                            tarefa.getDataUpdate()
+                    )).collect(Collectors.toList());
+
+            return new ListaComTarefasDTO(
+                    lista.getId(),
+                    lista.getNomeLista(),
+                    lista.getNomeUsuario(),
+                    lista.getStatus().name(),
+                    lista.getDataCriacao(),
+                    lista.getDataUpdate(),
+                    tarefasDTO
+            );
+        }).collect(Collectors.toList());
+
+        result.setListaTarefas(listasDTO);
         result.setTotalListas(total);
 
-
-        if (listasCadastradas.isEmpty()){
+        if (listasCadastradas.isEmpty()) {
             throw new ApiException("Listas não encontradas.", HttpStatus.NOT_FOUND);
         }
 
         return result;
     }
+
 
     public ListaDTO listarByFields(UUID id, String nomeUsuario, String nomeLista, String status) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -101,11 +127,9 @@ public class ListService {
             }
         }
 
-        query.select(lista)
-                .where(cb.and(predicates.toArray(new Predicate[0])));
+        query.select(lista).where(cb.and(predicates.toArray(new Predicate[0])));
 
         TypedQuery<Lista> typedQuery = entityManager.createQuery(query);
-
         List<Lista> resultList = typedQuery.getResultList();
         int total = resultList.size();
 
@@ -113,22 +137,40 @@ public class ListService {
             throw new ApiException("Dados não encontrados para os parâmetros informados.", HttpStatus.NOT_FOUND);
         }
 
-        resultList.forEach(listaObj ->
-                listaObj.setTarefas(listaObj.getTarefas().stream()
-                        .sorted(Comparator.comparing(Tarefa::isFavoritos).reversed())
-                        .collect(Collectors.toCollection(LinkedHashSet::new)))
-        );
+        List<ListaComTarefasDTO> listasDTO = resultList.stream().map(listaRetorno -> {
+            List<TarefaDTO> tarefasDTO = listaRetorno.getTarefas().stream()
+                    .sorted(Comparator.comparing(Tarefa::isFavoritos).reversed())
+                    .map(tarefa -> new TarefaDTO(
+                            tarefa.getId(),
+                            tarefa.getNomeTask(),
+                            tarefa.getDescricao(),
+                            tarefa.getStatus().name(),
+                            tarefa.isFavoritos(),
+                            tarefa.getDataCriacao(),
+                            tarefa.getDataUpdate()
+                    )).collect(Collectors.toList());
 
-        return new ListaDTO(total, resultList);
+            return new ListaComTarefasDTO(
+                    listaRetorno.getId(),
+                    listaRetorno.getNomeLista(),
+                    listaRetorno.getNomeUsuario(),
+                    listaRetorno.getStatus().name(),
+                    listaRetorno.getDataCriacao(),
+                    listaRetorno.getDataUpdate(),
+                    tarefasDTO
+            );
+        }).collect(Collectors.toList());
+
+        return new ListaDTO(total, listasDTO);
     }
 
     public ResponsePadraoDTO atualizarList(@Valid EditarListDTO form) {
-        Lista listaExistente = listRepository.findById(form.getUuid())
-                .orElseThrow(() -> new ApiException("Lista não encontrada para o UUID informado.", HttpStatus.NOT_FOUND));
+        Lista listaExistente = listRepository.findById(form.getId())
+                .orElseThrow(() -> new ApiException("Lista não encontrada para o id informado.", HttpStatus.NOT_FOUND));
 
         if (form.getNomeLista() != null && !form.getNomeLista().isEmpty()) {
             boolean nomeJaExiste = listRepository.findByNomeLista(form.getNomeLista())
-                    .filter(lista -> !lista.getId().equals(form.getUuid()))
+                    .filter(lista -> !lista.getId().equals(form.getId()))
                     .isPresent();
 
             if (nomeJaExiste) {
@@ -162,7 +204,7 @@ public class ListService {
 
     public ResponsePadraoDTO excluirList(UUID id) {
         Lista listaExistente = listRepository.findById(id)
-                .orElseThrow(() -> new ApiException("Lista não encontrada para o UUID informado.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiException("Lista não encontrada para o id informado.", HttpStatus.NOT_FOUND));
 
         try {
             listRepository.delete(listaExistente);

@@ -1,4 +1,4 @@
-package com.api.v1.tarefas.dto;
+package com.api.v1.tarefas.dto.list;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,8 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class EditarListDTO {
 
-    @NotNull(message = "O campo 'uuid' não pode estar nulo.")
-    private UUID uuid;
+    @NotNull(message = "O campo 'id' não pode estar nulo.")
+    private UUID id;
 
     @Size(max = 255, message = "O campo 'nomeLista' deve ter no máximo 255 caracteres.")
     private String nomeLista;

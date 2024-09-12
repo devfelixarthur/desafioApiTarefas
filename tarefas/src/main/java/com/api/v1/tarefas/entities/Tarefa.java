@@ -24,6 +24,9 @@ public class Tarefa {
     private UUID id;
 
     @NotBlank
+    @Column(name = "nome_task", nullable = false, length = 255)
+    private String nomeTask;
+
     @Column(name = "description", nullable = false, length = 500)
     private String descricao;
 

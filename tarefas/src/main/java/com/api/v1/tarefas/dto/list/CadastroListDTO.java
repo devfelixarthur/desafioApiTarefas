@@ -1,4 +1,4 @@
-package com.api.v1.tarefas.dto;
+package com.api.v1.tarefas.dto.list;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

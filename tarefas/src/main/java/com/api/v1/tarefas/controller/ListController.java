@@ -1,11 +1,9 @@
 package com.api.v1.tarefas.controller;
 
 
-import com.api.v1.tarefas.dto.CadastroListDTO;
-import com.api.v1.tarefas.dto.EditarListDTO;
-import com.api.v1.tarefas.dto.ListaDTO;
-import com.api.v1.tarefas.entities.Lista;
-import com.api.v1.tarefas.enums.Status;
+import com.api.v1.tarefas.dto.list.CadastroListDTO;
+import com.api.v1.tarefas.dto.list.EditarListDTO;
+import com.api.v1.tarefas.dto.list.ListaDTO;
 import com.api.v1.tarefas.services.ListService;
 import com.api.v1.tarefas.utils.ResponsePadraoDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,12 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/list")
-@Tag(name = "Lista de Tarefas", description = "Operaçãoes relacionadas a operações com as Listas de Tarefas.")
+@Tag(name = "Lista de Tarefas", description = "Operaçãoes relacionadas a Listas de Tarefas.")
 public class ListController {
 
     @Autowired

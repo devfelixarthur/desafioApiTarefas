@@ -1,7 +1,7 @@
 package com.api.v1.tarefas.services;
 
-import com.api.v1.tarefas.dto.CadastroListDTO;
-import com.api.v1.tarefas.dto.EditarListDTO;
+import com.api.v1.tarefas.dto.list.CadastroListDTO;
+import com.api.v1.tarefas.dto.list.EditarListDTO;
 import com.api.v1.tarefas.entities.Lista;
 import com.api.v1.tarefas.enums.Status;
 import com.api.v1.tarefas.exceptions.ApiException;
