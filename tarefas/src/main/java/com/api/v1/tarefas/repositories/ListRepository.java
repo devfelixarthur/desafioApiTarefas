@@ -2,8 +2,6 @@ package com.api.v1.tarefas.repositories;
 
 
 import com.api.v1.tarefas.entities.Lista;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

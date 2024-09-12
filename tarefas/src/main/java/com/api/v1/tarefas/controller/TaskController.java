@@ -3,7 +3,6 @@ package com.api.v1.tarefas.controller;
 import com.api.v1.tarefas.dto.task.CadastroTaskDTO;
 import com.api.v1.tarefas.dto.task.EditarTaskDTO;
 import com.api.v1.tarefas.dto.task.ListTaskDTO;
-import com.api.v1.tarefas.dto.task.TarefaDTO;
 import com.api.v1.tarefas.exceptions.ApiException;
 import com.api.v1.tarefas.services.TaskService;
 import com.api.v1.tarefas.utils.ResponsePadraoDTO;
@@ -19,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
