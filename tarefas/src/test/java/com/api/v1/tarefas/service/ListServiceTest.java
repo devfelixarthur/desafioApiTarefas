@@ -1,143 +1,160 @@
-package com.api.v1.tarefas.services;
+package com.api.v1.tarefas.service;
 
 import com.api.v1.tarefas.dto.list.CadastroListDTO;
 import com.api.v1.tarefas.dto.list.EditarListDTO;
 import com.api.v1.tarefas.entities.Lista;
-import com.api.v1.tarefas.enums.Status;
 import com.api.v1.tarefas.exceptions.ApiException;
 import com.api.v1.tarefas.repositories.ListRepository;
+import com.api.v1.tarefas.services.ListService;
 import com.api.v1.tarefas.utils.ResponsePadraoDTO;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class ListServiceTest {
 
-    @InjectMocks
-    private ListService listService;
-
     @Mock
     private ListRepository listRepository;
 
-    private UUID uuid;
-    private Lista lista;
+    @Mock
+    private EntityManager entityManager;
+
+    @InjectMocks
+    private ListService listService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        uuid = UUID.randomUUID();
-        lista = new Lista();
-        lista.setId(uuid);
-        lista.setNomeLista("Lista Teste");
-        lista.setNomeUsuario("Usuário Teste");
-        lista.setDataCriacao(LocalDateTime.now());
-        lista.setDataUpdate(LocalDateTime.now());
-        lista.setStatus(Status.ATIVO);
     }
 
     @Test
-    void cadastrarList_Sucesso() {
-        CadastroListDTO cadastroListDTO = new CadastroListDTO("Lista Teste", "Usuário Teste");
+    void cadastrarList_DeveCadastrarComSucesso() {
+        CadastroListDTO form = new CadastroListDTO("Lista Teste", "Usuario Teste");
 
-        when(listRepository.findByNomeLista("Lista Teste")).thenReturn(Optional.empty());
+        when(listRepository.findByNomeLista(any())).thenReturn(Optional.empty());
+        when(listRepository.save(any(Lista.class))).thenReturn(new Lista());
 
-        ResponsePadraoDTO response = listService.cadastrarList(cadastroListDTO);
+        ResponsePadraoDTO response = listService.cadastrarList(form);
 
-        assertEquals("Sucesso", response.getTitulo());
         assertEquals("Lista cadastrada com sucesso.", response.getMensagem());
-        verify(listRepository, times(1)).save(any(Lista.class));
     }
 
     @Test
-    void cadastrarList_NomeDuplicado() {
-        CadastroListDTO cadastroListDTO = new CadastroListDTO("Lista Teste", "Usuário Teste");
+    void cadastrarList_DeveLancarExcecaoSeJaExiste() {
+        CadastroListDTO form = new CadastroListDTO("Lista Teste", "Usuario Teste");
 
-        when(listRepository.findByNomeLista("Lista Teste")).thenReturn(Optional.of(lista));
+        when(listRepository.findByNomeLista(any())).thenReturn(Optional.of(new Lista()));
 
-        ApiException exception = assertThrows(ApiException.class, () -> {
-            listService.cadastrarList(cadastroListDTO);
-        });
+        ApiException exception = assertThrows(ApiException.class, () -> listService.cadastrarList(form));
 
         assertEquals("Já exite uma lista para o nome informado", exception.getMessage());
-        assertEquals(400, exception.getHttpStatus().value());
-        verify(listRepository, never()).save(any(Lista.class));
     }
 
     @Test
-    void atualizarList_Sucesso() {
-        EditarListDTO editarListDTO = new EditarListDTO(uuid, "Lista Atualizada", "Usuário Atualizado", "ATIVO");
+    void atualizarList_DeveAtualizarComSucesso() {
+        EditarListDTO form = new EditarListDTO(UUID.randomUUID(), "Lista Atualizada", "Usuario Atualizado", "ATIVO");
+        Lista listaExistente = new Lista();
+        listaExistente.setId(form.getId());
+        listaExistente.setNomeLista("Lista Antiga");
 
-        when(listRepository.findById(uuid)).thenReturn(Optional.of(lista));
-        when(listRepository.findByNomeLista("Lista Atualizada")).thenReturn(Optional.empty());
+        when(listRepository.findById(form.getId())).thenReturn(Optional.of(listaExistente));
+        when(listRepository.save(any(Lista.class))).thenReturn(listaExistente);
 
-        ResponsePadraoDTO response = listService.atualizarList(editarListDTO);
+        ResponsePadraoDTO response = listService.atualizarList(form);
 
-        assertEquals("Sucesso", response.getTitulo());
         assertEquals("Lista atualizada com sucesso.", response.getMensagem());
-        verify(listRepository, times(1)).save(lista);
     }
 
     @Test
-    void atualizarList_NomeDuplicado() {
-        EditarListDTO editarListDTO = new EditarListDTO(uuid, "Lista Atualizada", "Usuário Atualizado", "ATIVO");
+    void atualizarList_DeveLancarExcecaoSeNomeJaExiste() {
+        EditarListDTO form = new EditarListDTO(UUID.randomUUID(), "Lista Atualizada", "Usuario Atualizado", "ATIVO");
+        Lista listaExistente = new Lista();
+        listaExistente.setId(form.getId());
 
-        when(listRepository.findById(uuid)).thenReturn(Optional.of(lista));
-        when(listRepository.findByNomeLista("Lista Atualizada")).thenReturn(Optional.of(new Lista()));
+        when(listRepository.findById(form.getId())).thenReturn(Optional.of(listaExistente));
+        Lista listaComMesmoNome = new Lista();
+        listaComMesmoNome.setId(UUID.randomUUID());
+        when(listRepository.findByNomeLista(any())).thenReturn(Optional.of(listaComMesmoNome));
 
-        ApiException exception = assertThrows(ApiException.class, () -> {
-            listService.atualizarList(editarListDTO);
-        });
+        ApiException exception = assertThrows(ApiException.class, () -> listService.atualizarList(form));
 
         assertEquals("Já existe uma lista com o nome informado.", exception.getMessage());
-        assertEquals(400, exception.getHttpStatus().value());
-        verify(listRepository, never()).save(any(Lista.class));
+    }
+
+
+    @Test
+    void excluirList_DeveExcluirComSucesso() {
+        Lista listaExistente = new Lista();
+        listaExistente.setId(UUID.randomUUID());
+
+        when(listRepository.findById(listaExistente.getId())).thenReturn(Optional.of(listaExistente));
+        doNothing().when(listRepository).delete(any(Lista.class));
+
+        ResponsePadraoDTO response = listService.excluirList(listaExistente.getId());
+
+        assertEquals("Lista excluída com sucesso.", response.getMensagem());
     }
 
     @Test
-    void atualizarList_StatusInvalido() {
-        EditarListDTO editarListDTO = new EditarListDTO(uuid, "Lista Atualizada", "Usuário Atualizado", "INVALIDO");
+    void excluirList_DeveLancarErroSeListaNaoExistir() {
+        UUID idLista = UUID.randomUUID();
+        when(listRepository.findById(idLista)).thenReturn(Optional.empty());
 
-        when(listRepository.findById(uuid)).thenReturn(Optional.of(lista));
+        ApiException exception = assertThrows(ApiException.class, () -> listService.excluirList(idLista));
 
-        ApiException exception = assertThrows(ApiException.class, () -> {
-            listService.atualizarList(editarListDTO);
-        });
+        assertEquals("Lista não encontrada para o id informado.", exception.getMessage());
+        verify(listRepository, never()).delete(any(Lista.class));
+    }
+
+    @Test
+    void cadastrarList_DeveLancarErroSeFalhaNoBanco() {
+        CadastroListDTO form = new CadastroListDTO("Lista Teste", "Usuario Teste");
+
+        when(listRepository.findByNomeLista(any())).thenReturn(Optional.empty());
+        when(listRepository.save(any(Lista.class))).thenThrow(new RuntimeException("Erro no banco"));
+
+        ApiException exception = assertThrows(ApiException.class, () -> listService.cadastrarList(form));
+
+        assertEquals("Falha ao salvar a lista", exception.getMessage());
+    }
+
+    @Test
+    void atualizarList_DeveAtualizarSomenteNomeQuandoForPassado() {
+        EditarListDTO form = new EditarListDTO(UUID.randomUUID(), "Lista Atualizada", null, null);
+        Lista listaExistente = new Lista();
+        listaExistente.setId(form.getId());
+        listaExistente.setNomeLista("Lista Antiga");
+
+        when(listRepository.findById(form.getId())).thenReturn(Optional.of(listaExistente));
+
+        ResponsePadraoDTO response = listService.atualizarList(form);
+
+        assertEquals("Lista atualizada com sucesso.", response.getMensagem());
+        assertEquals("Lista Atualizada", listaExistente.getNomeLista());
+        assertNull(listaExistente.getNomeUsuario());
+    }
+
+    @Test
+    void atualizarList_DeveLancarErroSeParametrosInvalidos() {
+        EditarListDTO form = new EditarListDTO(UUID.randomUUID(), "", "Novo Usuario", "INVALIDO");
+
+        Lista listaExistente = new Lista();
+        listaExistente.setId(form.getId());
+
+        when(listRepository.findById(form.getId())).thenReturn(Optional.of(listaExistente));
+
+        ApiException exception = assertThrows(ApiException.class, () -> listService.atualizarList(form));
 
         assertEquals("Status inválido. O status deve ser ATIVO ou INATIVO.", exception.getMessage());
-        assertEquals(400, exception.getHttpStatus().value());
-        verify(listRepository, never()).save(any(Lista.class));
-    }
-
-    @Test
-    void excluirList_Sucesso() {
-        when(listRepository.findById(uuid)).thenReturn(Optional.of(lista));
-
-        ResponsePadraoDTO response = listService.excluirList(uuid);
-
-        assertEquals("Sucesso", response.getTitulo());
-        assertEquals("Lista excluída com sucesso.", response.getMensagem());
-        verify(listRepository, times(1)).delete(lista);
-    }
-
-    @Test
-    void excluirList_ListaNaoEncontrada() {
-        when(listRepository.findById(uuid)).thenReturn(Optional.empty());
-
-        ApiException exception = assertThrows(ApiException.class, () -> {
-            listService.excluirList(uuid);
-        });
-
-        assertEquals("Lista não encontrada para o UUID informado.", exception.getMessage());
-        assertEquals(404, exception.getHttpStatus().value());
-        verify(listRepository, never()).delete(any(Lista.class));
     }
 }

@@ -15,7 +15,7 @@
             @Size(min = 3, max = 255, message = "O campo 'nomeTask' deve ter entre 3 e 255 caracteres.")
             String nomeTask,
 
-            @Size(max = 500, message = "O campo 'descrição' deve ter no máximo 500 caracteres.")
+            @Size(min = 3, max = 500, message = "O campo 'descrição' deve ter no máximo 500 caracteres.")
             String descricao,
 
             @Min(value = 0, message = "O campo 'favorito' deve ser 0 para NÃO.")

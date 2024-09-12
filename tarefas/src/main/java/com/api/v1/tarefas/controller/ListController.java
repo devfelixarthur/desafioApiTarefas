@@ -34,7 +34,7 @@ public class ListController {
             @ApiResponse(responseCode = "500", description = "Erro na solicitação.", content = @Content(schema = @Schema(implementation = ResponsePadraoDTO.class)))
     })
     @PostMapping("/cadastrarLista")
-    public ResponseEntity<ResponsePadraoDTO> cadastrarWine(@RequestBody @Valid CadastroListDTO form) {
+    public ResponseEntity<ResponsePadraoDTO> cadastrarLista(@RequestBody @Valid CadastroListDTO form) {
         ResponsePadraoDTO responsePadraoDTO = listService.cadastrarList(form);
         return ResponseEntity.ok().body(responsePadraoDTO);
     }
