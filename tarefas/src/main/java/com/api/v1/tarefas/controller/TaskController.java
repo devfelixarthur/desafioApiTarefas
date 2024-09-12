@@ -65,7 +65,12 @@ public class TaskController {
             @RequestParam(required = false) UUID idTask,
             @RequestParam(required = false) String nomeTask,
             @RequestParam(required = false) String status,
-            @RequestParam(required = false) Boolean isFavoritos) {
+            @RequestParam(required = false) Integer isFavoritos) {
+
+        if (isFavoritos == null || (isFavoritos != 0 && isFavoritos != 1)) {
+            throw new ApiException("O parâmetro 'isFavoritos' deve ser 0 para 'NÃO' ou 1 para 'SIM'.", HttpStatus.BAD_REQUEST);
+        }
+
         ListTaskDTO resultado = taskService.listarTasksByFields(idTask, nomeTask, status, isFavoritos);
         return ResponseEntity.ok(resultado);
     }

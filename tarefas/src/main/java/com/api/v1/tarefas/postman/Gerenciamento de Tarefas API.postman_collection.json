@@ -1,0 +1,963 @@
+{
+	"info": {
+		"_postman_id": "ec93de68-a18d-40e4-9348-6344064e823b",
+		"name": "Gerenciamento de Tarefas API",
+		"description": "Esta collection contém todos os endpoints relacionados ao gerenciamento de listas e tarefas. Está organizada em dois controladores principais: ListController e TaskController. Cada endpoint possui sua função específica no gerenciamento de tarefas e listas, como criação, atualização, listagem, exclusão e favoritar tarefas.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24823254"
+	},
+	"item": [
+		{
+			"name": "ListController",
+			"item": [
+				{
+					"name": "CadastrarLista",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeLista\": \"Lista 4\",\r\n    \"nomeUsuario\": \"Usuario 2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/list/cadastrarLista",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"list",
+								"cadastrarLista"
+							]
+						},
+						"description": "Este endpoint permite o cadastro de uma nova lista de tarefas. O nome da lista e o nome do usuário são obrigatórios."
+					},
+					"response": [
+						{
+							"name": "CadastrarLista",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nomeLista\": \"Lista 4\",\r\n    \"nomeUsuario\": \"Usuario 4\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/list/cadastrarLista",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"list",
+										"cadastrarLista"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 17:19:03 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"titulo\": \"Sucesso\",\n    \"mensagem\": \"Lista cadastrada com sucesso.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "ListarTodas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/list/listarTodas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"list",
+								"listarTodas"
+							]
+						},
+						"description": "Este endpoint lista todas as listas de tarefas cadastradas."
+					},
+					"response": [
+						{
+							"name": "ListarTodas",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/list/listarTodas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"list",
+										"listarTodas"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 17:19:13 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"totalListas\": 4,\n    \"listaTarefas\": [\n        {\n            \"id\": \"06a6aba1-c3b9-40ae-94ff-25709427c525\",\n            \"nomeLista\": \"Lista 1\",\n            \"nomeUsuario\": \"Usuario 1\",\n            \"status\": \"ATIVO\",\n            \"dataCriacao\": \"2024-09-12T14:10:15.950517\",\n            \"dataUpdate\": \"2024-09-12T14:10:15.950517\",\n            \"tarefas\": []\n        },\n        {\n            \"id\": \"658c7a4c-2627-4b79-bc29-0ce5a8c9fadc\",\n            \"nomeLista\": \"Lista 2\",\n            \"nomeUsuario\": \"Usuario 2\",\n            \"status\": \"ATIVO\",\n            \"dataCriacao\": \"2024-09-12T14:10:26.140289\",\n            \"dataUpdate\": \"2024-09-12T14:10:26.140289\",\n            \"tarefas\": []\n        },\n        {\n            \"id\": \"cb52195b-6a47-43ed-8136-966c350a6419\",\n            \"nomeLista\": \"Lista 3\",\n            \"nomeUsuario\": \"Usuario 3\",\n            \"status\": \"ATIVO\",\n            \"dataCriacao\": \"2024-09-12T14:10:30.247754\",\n            \"dataUpdate\": \"2024-09-12T14:15:13.328363\",\n            \"tarefas\": []\n        },\n        {\n            \"id\": \"261bb851-48ca-4b8f-b9c2-25f5ec882073\",\n            \"nomeLista\": \"Lista 4\",\n            \"nomeUsuario\": \"Usuario 4\",\n            \"status\": \"ATIVO\",\n            \"dataCriacao\": \"2024-09-12T14:19:03.928166\",\n            \"dataUpdate\": \"2024-09-12T14:19:03.928166\",\n            \"tarefas\": []\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "ListarByFields",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/list/listarByFields?nomeLista=Lista 1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"list",
+								"listarByFields"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "ID da lista (opcional).",
+									"disabled": true
+								},
+								{
+									"key": "nomeUsuario",
+									"value": "",
+									"description": "Nome do usuário (opcional).",
+									"disabled": true
+								},
+								{
+									"key": "nomeLista",
+									"value": "Lista 1",
+									"description": "Nome da lista (opcional)."
+								},
+								{
+									"key": "status",
+									"value": "",
+									"description": "Status da lista (opcional, ex.: ATIVO, INATIVO).",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Este endpoint permite listar listas de tarefas filtradas pelos campos fornecidos. Todos os parâmetros são opcionais."
+					},
+					"response": [
+						{
+							"name": "ListarByFields",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/list/listarByFields?nomeLista=Lista 1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"list",
+										"listarByFields"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "",
+											"description": "ID da lista (opcional).",
+											"disabled": true
+										},
+										{
+											"key": "nomeUsuario",
+											"value": "",
+											"description": "Nome do usuário (opcional).",
+											"disabled": true
+										},
+										{
+											"key": "nomeLista",
+											"value": "Lista 1",
+											"description": "Nome da lista (opcional)."
+										},
+										{
+											"key": "status",
+											"value": "",
+											"description": "Status da lista (opcional, ex.: ATIVO, INATIVO).",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 17:19:20 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"totalListas\": 1,\n    \"listaTarefas\": [\n        {\n            \"id\": \"06a6aba1-c3b9-40ae-94ff-25709427c525\",\n            \"nomeLista\": \"Lista 1\",\n            \"nomeUsuario\": \"Usuario 1\",\n            \"status\": \"ATIVO\",\n            \"dataCriacao\": \"2024-09-12T14:10:15.950517\",\n            \"dataUpdate\": \"2024-09-12T14:10:15.950517\",\n            \"tarefas\": []\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "AtualizarLista",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"cb52195b-6a47-43ed-8136-966c350a6419\",\r\n    \"nomeUsuario\": \"Usuario 3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/list/atualizarLista",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"list",
+								"atualizarLista"
+							]
+						},
+						"description": "Este endpoint permite a atualização de uma lista existente. O ID da lista é obrigatório. Somente os campos fornecidos serão atualizados."
+					},
+					"response": [
+						{
+							"name": "AtualizarLista",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": \"cb52195b-6a47-43ed-8136-966c350a6419\",\r\n    \"nomeUsuario\": \"Usuario 3\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/list/atualizarLista",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"list",
+										"atualizarLista"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 17:19:30 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"titulo\": \"Sucesso\",\n    \"mensagem\": \"Lista atualizada com sucesso.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "ExcluirLista",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/list/excluirLista/291fa2b8-79a9-475a-8adc-46b5b63a70fc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"list",
+								"excluirLista",
+								"291fa2b8-79a9-475a-8adc-46b5b63a70fc"
+							]
+						},
+						"description": "Este endpoint permite excluir uma lista existente. O ID da lista é obrigatório."
+					},
+					"response": [
+						{
+							"name": "ExcluirLista",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/list/excluirLista/261bb851-48ca-4b8f-b9c2-25f5ec882073",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"list",
+										"excluirLista",
+										"261bb851-48ca-4b8f-b9c2-25f5ec882073"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 17:20:04 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"titulo\": \"Sucesso\",\n    \"mensagem\": \"Lista excluída com sucesso.\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Controller responsável pelas operações relacionadas às Listas de Tarefas, como criação, listagem, atualização e exclusão de listas."
+		},
+		{
+			"name": "TaskController",
+			"item": [
+				{
+					"name": "CadastrarTask",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idLista\": \"{{idLista}}\",\r\n    \"nomeTask\": \"Task Teste\",\r\n    \"descricao\": \"Descricao Teste\",\r\n    \"favorito\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/task/cadastrarTask",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"task",
+								"cadastrarTask"
+							]
+						},
+						"description": "Este endpoint permite cadastrar uma nova tarefa. O ID da lista é obrigatório."
+					},
+					"response": [
+						{
+							"name": "CadastrarTask",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"idLista\": \"06a6aba1-c3b9-40ae-94ff-25709427c525\",\r\n    \"nomeTask\": \"Task Teste\",\r\n    \"descricao\": \"Descricao Teste\",\r\n    \"favorito\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/task/cadastrarTask",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"task",
+										"cadastrarTask"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 17:20:47 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"titulo\": \"Sucesso\",\n    \"mensagem\": \"Tarefa cadastrada com sucesso.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "ListarTodasTarefas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/task/listarTasks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"task",
+								"listarTasks"
+							]
+						},
+						"description": "Este endpoint lista todas as tarefas cadastradas."
+					},
+					"response": [
+						{
+							"name": "ListarTodasTarefas",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/task/listarTasks",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"task",
+										"listarTasks"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 17:34:23 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"totalTarefas\": 1,\n    \"tarefas\": [\n        {\n            \"idTarefa\": \"098424df-6ab9-4b72-8821-3273733ff85a\",\n            \"nomeTask\": \"Task Teste\",\n            \"descricao\": \"Descricao Teste\",\n            \"status\": \"ATIVO\",\n            \"favoritos\": true,\n            \"dataCriacao\": \"2024-09-12T14:20:47.234099\",\n            \"dataUpdate\": \"2024-09-12T14:20:47.234099\",\n            \"infoList\": [\n                {\n                    \"idLista\": \"06a6aba1-c3b9-40ae-94ff-25709427c525\",\n                    \"nomeLista\": \"Lista 1\",\n                    \"nomeUsuario\": \"Usuario 1\",\n                    \"statusLista\": \"ATIVO\",\n                    \"dataCriacaoLista\": \"2024-09-12T14:10:15.950517\",\n                    \"dataUpdateLista\": \"2024-09-12T14:10:15.950517\"\n                }\n            ]\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "ListarTasksByFields",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/task/listarTasksByFields?isFavoritos=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"task",
+								"listarTasksByFields"
+							],
+							"query": [
+								{
+									"key": "idTask",
+									"value": "",
+									"description": "ID da tarefa (opcional).",
+									"disabled": true
+								},
+								{
+									"key": "nomeTask",
+									"value": "",
+									"description": "Nome da tarefa (opcional).",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "",
+									"description": "Status da tarefa (opcional, ex.: ATIVO, INATIVO).",
+									"disabled": true
+								},
+								{
+									"key": "isFavoritos",
+									"value": "0",
+									"description": "Booleano (opcional) indicando se a tarefa é favorita. (0 OU 1)"
+								}
+							]
+						},
+						"description": "Este endpoint permite listar tarefas filtradas pelos campos fornecidos. Todos os parâmetros são opcionais."
+					},
+					"response": [
+						{
+							"name": "ListarTasksByFields",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/task/listarTasksByFields?isFavoritos=0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"task",
+										"listarTasksByFields"
+									],
+									"query": [
+										{
+											"key": "idTask",
+											"value": "",
+											"description": "ID da tarefa (opcional).",
+											"disabled": true
+										},
+										{
+											"key": "nomeTask",
+											"value": "",
+											"description": "Nome da tarefa (opcional).",
+											"disabled": true
+										},
+										{
+											"key": "status",
+											"value": "",
+											"description": "Status da tarefa (opcional, ex.: ATIVO, INATIVO).",
+											"disabled": true
+										},
+										{
+											"key": "isFavoritos",
+											"value": "0",
+											"description": "Booleano (opcional) indicando se a tarefa é favorita. (0 OU 1)"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 17:44:25 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"totalTarefas\": 3,\n    \"tarefas\": [\n        {\n            \"idTarefa\": \"a0c2e240-932f-49f1-8cf6-ba54d5bfd498\",\n            \"nomeTask\": \"Task Teste2\",\n            \"descricao\": \"Descricao Teste2\",\n            \"status\": \"ATIVO\",\n            \"favoritos\": false,\n            \"dataCriacao\": \"2024-09-12T14:34:54.153811\",\n            \"dataUpdate\": \"2024-09-12T14:34:54.153811\",\n            \"infoList\": [\n                {\n                    \"idLista\": \"658c7a4c-2627-4b79-bc29-0ce5a8c9fadc\",\n                    \"nomeLista\": \"Lista 2\",\n                    \"nomeUsuario\": \"Usuario 2\",\n                    \"statusLista\": \"ATIVO\",\n                    \"dataCriacaoLista\": \"2024-09-12T14:10:26.140289\",\n                    \"dataUpdateLista\": \"2024-09-12T14:10:26.140289\"\n                }\n            ]\n        },\n        {\n            \"idTarefa\": \"1316f81c-6f43-445f-b5c2-514c54a365b1\",\n            \"nomeTask\": \"Task Teste2\",\n            \"descricao\": \"Descricao Teste2\",\n            \"status\": \"ATIVO\",\n            \"favoritos\": false,\n            \"dataCriacao\": \"2024-09-12T14:35:04.025191\",\n            \"dataUpdate\": \"2024-09-12T14:35:04.025191\",\n            \"infoList\": [\n                {\n                    \"idLista\": \"658c7a4c-2627-4b79-bc29-0ce5a8c9fadc\",\n                    \"nomeLista\": \"Lista 2\",\n                    \"nomeUsuario\": \"Usuario 2\",\n                    \"statusLista\": \"ATIVO\",\n                    \"dataCriacaoLista\": \"2024-09-12T14:10:26.140289\",\n                    \"dataUpdateLista\": \"2024-09-12T14:10:26.140289\"\n                }\n            ]\n        },\n        {\n            \"idTarefa\": \"3ad7579c-1ff9-48fd-a0c2-36af910cf88c\",\n            \"nomeTask\": \"Task Teste3\",\n            \"descricao\": \"Descricao Teste2\",\n            \"status\": \"ATIVO\",\n            \"favoritos\": false,\n            \"dataCriacao\": \"2024-09-12T14:39:51.82358\",\n            \"dataUpdate\": \"2024-09-12T14:39:51.82358\",\n            \"infoList\": [\n                {\n                    \"idLista\": \"658c7a4c-2627-4b79-bc29-0ce5a8c9fadc\",\n                    \"nomeLista\": \"Lista 2\",\n                    \"nomeUsuario\": \"Usuario 2\",\n                    \"statusLista\": \"ATIVO\",\n                    \"dataCriacaoLista\": \"2024-09-12T14:10:26.140289\",\n                    \"dataUpdateLista\": \"2024-09-12T14:10:26.140289\"\n                }\n            ]\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "AtualizarTask",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"idLista\": \"{{idLista}}\",\r\n    \"nomeTask\": \"Task Atualizada\",\r\n    \"descricao\": \"Descricao Atualizada\",\r\n    \"favorito\": 1,\r\n    \"status\": \"ATIVO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/task/atualizarTask",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"task",
+								"atualizarTask"
+							]
+						},
+						"description": "Este endpoint permite a atualização de uma tarefa existente. Somente os campos fornecidos serão atualizados."
+					},
+					"response": [
+						{
+							"name": "AtualizarTask",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": \"3ad7579c-1ff9-48fd-a0c2-36af910cf88c\",\r\n    \"favorito\": 0,\r\n    \"status\": \"INATIVO\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/task/atualizarTask",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"task",
+										"atualizarTask"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 17:45:14 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"titulo\": \"Sucesso\",\n    \"mensagem\": \"Tarefa atualizada com sucesso.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "ExcluirTask",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/task/excluirTask/3ad7579c-1ff9-48fd-a0c2-36af910cf88c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"task",
+								"excluirTask",
+								"3ad7579c-1ff9-48fd-a0c2-36af910cf88c"
+							]
+						},
+						"description": "Este endpoint permite excluir uma tarefa existente. O ID da tarefa é obrigatório."
+					},
+					"response": [
+						{
+							"name": "ExcluirTask",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/task/excluirTask/3ad7579c-1ff9-48fd-a0c2-36af910cf88c",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"task",
+										"excluirTask",
+										"3ad7579c-1ff9-48fd-a0c2-36af910cf88c"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 17:45:32 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"titulo\": \"Sucesso\",\n    \"mensagem\": \"Tarefa excluída com sucesso.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "FavoritarTask",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/task/favoritarTask/{{idTask}}?favorito={{favorito}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"task",
+								"favoritarTask",
+								"{{idTask}}"
+							],
+							"query": [
+								{
+									"key": "favorito",
+									"value": "{{favorito}}",
+									"description": "0 para NÃO, 1 para SIM"
+								}
+							]
+						},
+						"description": "Este endpoint permite favoritar ou desfavoritar uma tarefa. O ID da tarefa é obrigatório."
+					},
+					"response": [
+						{
+							"name": "FavoritarTask",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/task/favoritarTask/1316f81c-6f43-445f-b5c2-514c54a365b1?favorito=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"task",
+										"favoritarTask",
+										"1316f81c-6f43-445f-b5c2-514c54a365b1"
+									],
+									"query": [
+										{
+											"key": "favorito",
+											"value": "1",
+											"description": "0 para NÃO, 1 para SIM"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 17:53:51 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"titulo\": \"Sucesso\",\n    \"mensagem\": \"Tarefa marcada como favorita.\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Controller responsável pelas operações relacionadas às Tarefas, como criação, listagem, atualização, exclusão e favoritar/desfavoritar tarefas."
+		}
+	]
+}

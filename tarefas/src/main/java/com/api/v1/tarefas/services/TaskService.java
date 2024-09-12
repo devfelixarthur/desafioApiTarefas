@@ -105,7 +105,7 @@ public class TaskService {
         return new ListTaskDTO(totalTarefas, tarefasDTO);
     }
 
-    public ListTaskDTO listarTasksByFields(UUID idTask, String nomeTask, String status, Boolean isFavoritos) {
+    public ListTaskDTO listarTasksByFields(UUID idTask, String nomeTask, String status, Integer isFavoritos) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Tarefa> query = cb.createQuery(Tarefa.class);
         Root<Tarefa> tarefa = query.from(Tarefa.class);
@@ -130,7 +130,8 @@ public class TaskService {
         }
 
         if (isFavoritos != null) {
-            predicates.add(cb.equal(tarefa.get("favoritos"), isFavoritos));
+            boolean favorito = isFavoritos.equals(1);
+            predicates.add(cb.equal(tarefa.get("favoritos"), favorito));
         }
 
         query.select(tarefa).where(cb.and(predicates.toArray(new Predicate[0])));
