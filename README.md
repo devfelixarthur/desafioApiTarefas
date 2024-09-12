@@ -11,17 +11,17 @@ Este projeto é uma aplicação web para gerenciamento de listas e itens. Permit
 3. **Visualização e Filtragem**: Visualize e organize listas e itens com opções de filtragem.
 4. **Prioridade de Itens**: Destaque itens dentro das listas para indicar prioridade.
 
-## Requisitos Não Funcionais
+## Tecnologias Utilizadas
 
-1. **Persistência de Dados**: Dados devem ser armazenados de forma persistente.
-2. **Exposição de API**: A aplicação deve fornecer uma API para operações principais.
-3. **Testes Automatizados**: Inclua testes automatizados para funcionalidades principais.
+- ![Java](https://img.shields.io/badge/Java-007396?style=flat&logo=java&logoColor=white) Java
+- ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat&logo=springboot&logoColor=white) Spring Boot
+- ![Spring Data JPA](https://img.shields.io/badge/Spring%20Data%20JPA-6DB33F?style=flat&logo=spring&logoColor=white) Spring Data JPA
+- ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white) PostgreSQL
+- ![Maven](https://img.shields.io/badge/Maven-C71A36?style=flat&logo=apachemaven&logoColor=white) Maven
+- ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white) Postman
+- ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=flat&logo=swagger&logoColor=white) Swagger
+- ![JUnit](https://img.shields.io/badge/JUnit-25A162?style=flat&logo=junit5&logoColor=white) JUnit
 
-## Tecnologias Obrigatórias
-
-- **Framework de Desenvolvimento**: Utilize um framework adequado para o desenvolvimento da aplicação.
-- **Banco de Dados**: Banco de dados relacional para persistência dos dados.
-- **Ferramentas de Teste**: Testes automatizados utilizando ferramentas adequadas.
 
 ## Instruções para Execução Local
 
